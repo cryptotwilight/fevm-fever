@@ -10,11 +10,19 @@ import "../interfaces/IFGBGreenBond.sol";
 import "../interfaces/IFGBLendingMarket.sol";
 import "../interfaces/IFGBVersionedAddress.sol";
 import "../interfaces/IFGBLoanManager.sol";
-import "./FFLoan.sol";
+import "./FGBLoan.sol";
+import "./FGBGreenBond.sol";
 
 contract FGBLendingMarket is IFGBLendingMarket, IFGBLoanManager, IFGBVersionedAddress { 
 
     using Strings for address; 
+
+    struct Repatriation {
+        uint256 id; 
+        address loan; 
+        uint256 amount; 
+        uint256 repatriationDate; 
+    }
 
     string constant name = "RESERVED_IFF_LENDING_MARKET"; 
     uint256 constant version = 1; 
@@ -22,6 +30,11 @@ contract FGBLendingMarket is IFGBLendingMarket, IFGBLoanManager, IFGBVersionedAd
     address self; 
     address administrator; 
     MarketAPI fileCoinMarket; 
+
+    uint256 [] repatriationIds; 
+    mapping(uint256=>bool) knownRepatriationId; 
+    mapping(address=>uint256[]) repatriationIdsByLoan; 
+    mapping(uint256=>Repatriation) repatriationById; 
 
     address [] allLoans; 
     address [] outstandingLoans; 
@@ -34,6 +47,8 @@ contract FGBLendingMarket is IFGBLendingMarket, IFGBLoanManager, IFGBVersionedAd
     mapping(address=>bool) knownBond; 
     mapping(address=>address) loanByBorrower; 
     mapping(address=>address) bondByLender; 
+
+    uint256 repatriationIndex; 
 
     constructor(address _administrator, address _marketPlace) {
         administrator = _administrator; 
@@ -55,15 +70,15 @@ contract FGBLendingMarket is IFGBLendingMarket, IFGBLoanManager, IFGBVersionedAd
 
     function getOutstandingCapital() view external returns (uint256 _outstandingCapital){
         for(uint256 x = 0; x < outstandingLoans.length; x++) {
-            _outstandingCapital += IFFLoan(outstandingLoans[x]).getOutstandingBalance();
+            _outstandingCapital += IFGBLoan(outstandingLoans[x]).getOutstandingBalance();
         }
         return _outstandingCapital;
     }
 
     function getProjectedEarnings() view external returns (uint256 _earnedAmount, uint256 _latestDate){
         for(uint256 x = 0; x < outstandingLoans.length; x++) {
-            _earnedAmount += IFFLoan(outstandingLoans[x]).getConditions().interest; 
-            uint256 expiryDate_ = IFFLoan(outstandingLoans[x]).getConditions().expiryDate; 
+            _earnedAmount += IFGBLoan(outstandingLoans[x]).getConditions().interest; 
+            uint256 expiryDate_ = IFGBLoan(outstandingLoans[x]).getConditions().expiryDate; 
             if(_latestDate < expiryDate_){
                 _latestDate = expiryDate_;
             }
@@ -86,7 +101,7 @@ contract FGBLendingMarket is IFGBLendingMarket, IFGBLoanManager, IFGBVersionedAd
         uint256 collateral_ = getCollateral(_collateralDeals);
         require(collateral_ > _loanAmount, "insufficient collateral");
 
-        IFFLoan.LoanBasis memory loanBasis_ = IFFLoan.LoanBasis({
+        IFGBLoan.LoanBasis memory loanBasis_ = IFGBLoan.LoanBasis({
                                                 borrower        :  msg.sender.toHexString(),
                                                 borrowerAddress : msg.sender, 
                                                 collateral      : collateral_,
@@ -96,19 +111,39 @@ contract FGBLendingMarket is IFGBLendingMarket, IFGBLoanManager, IFGBVersionedAd
                                                 greenFilNftId   : _greenFilNftId,
                                                 createDate      : block.timestamp
                                                 });
-        IFFLoan.LoanConditions memory loanConditions_ = getLoanConditions(loanBasis_, _requestedTerm);
+        IFGBLoan.LoanConditions memory loanConditions_ = getLoanConditions(loanBasis_, _requestedTerm);
 
-        FFLoan loan_ = new FFLoan(self, _minerAddress, loanBasis_, loanConditions_);
+        FGBLoan loan_ = new FGBLoan(self, _minerAddress, loanBasis_, loanConditions_);
         _loanContract =  address(loan_);
-        allLoans.push(_loanContract);
+        allLoans.push(_loanContract);    
         knownLoan[_loanContract] = true; 
+        loanByBorrower[msg.sender] = _loanContract; 
+        
         return _loanContract;
     }
 
     
 
     function lend(uint256 _maxTerm, uint256 _funds) external payable returns (address _bondContract){
+        uint256 coupon_ = getCoupon();
+        IFGBGreenBond.BondBasis memory bondBasis_ = IFGBGreenBond.BondBasis ({ 
+                                                firstHolder : msg.sender, 
+                                                principal : _funds, 
+                                                coupon : coupon_,
+                                                valueAtMaturity : getValueAtMaturity(_maxTerm, _funds, coupon_),
+                                                maturityDate : block.timestamp + _maxTerm, 
+                                                initialPenalty : getInitialPenalty(_funds, _maxTerm),
+                                                createDate : block.timestamp
+                                    });
+        FGBGreenBond greenBond_ = new FGBGreenBond(self, bondBasis_);
+        
+        _bondContract = address(greenBond_);
+        outstandingBonds.push(_bondContract);
+        knownBond[_bondContract] = true; 
+        allBonds.push(_bondContract);
+        bondByLender[msg.sender] = _bondContract;
 
+        return _bondContract; 
     }
 
     function notifyLoanStatusChange(string memory _status) external returns (bool _recieved){
@@ -119,20 +154,48 @@ contract FGBLendingMarket is IFGBLendingMarket, IFGBLoanManager, IFGBVersionedAd
 
     function repatriateFunds(uint256 _funds) external payable returns (bool _repatriated) {
         require(knownLoan[msg.sender], "unknown loan");
-
+        Repatriation memory repatriation_ = Repatriation({
+                                                            id : getRepatriationId(),
+                                                            loan : msg.sender, 
+                                                            amount : _funds,
+                                                            repatriationDate : block.timestamp
+                                                        });
+        repatriationIds.push(repatriation_.id);
+        knownRepatriationId[repatriation_.id] = true; 
+        repatriationIdsByLoan[msg.sender].push(repatriation_.id);
+        repatriationById[repatriation_.id] = repatriation_; 
         return true; 
     }
 
     function requestActivation() external returns (bool _activated) {
         require(knownLoan[msg.sender], "unknown loan");
-        IFFLoan loan_ = IFFLoan(msg.sender);
+        IFGBLoan loan_ = IFGBLoan(msg.sender);
         loan_.credit{value : loan_.getBasis().loanAmount}();
         return true; 
     }
     // ============================= INTERNAL ======================================================================
 
-    function getLoanConditions(IFFLoan.LoanBasis memory loanBasis_, uint256 _requestedTerm) view internal returns (IFFLoan.LoanConditions memory _conditions) {
-            return IFFLoan.LoanConditions({               
+    function getCoupon() view internal returns (uint256 _coupon) {
+
+    }
+
+    function getValueAtMaturity(uint256 _maxTerm, uint256 _funds, uint256 _coupon) view internal returns (uint256 _valueAtMaturity) {
+
+    }
+
+    function getInitialPenalty(uint256 _funds, uint256 _term) view internal returns (uint256 _penalty) {
+
+    }
+
+
+    function getRepatriationId() internal returns (uint256 _id) {
+        _id = repatriationIndex;
+        repatriationIndex++; 
+        return _id; 
+    }
+
+    function getLoanConditions(IFGBLoan.LoanBasis memory loanBasis_, uint256 _requestedTerm) view internal returns (IFGBLoan.LoanConditions memory _conditions) {
+            return IFGBLoan.LoanConditions({               
                                             interest          : getInterestRate(loanBasis_.loanAmount, loanBasis_.collateral, loanBasis_.dealBasis.length, _requestedTerm),
                                             expiryDate        : loanBasis_.createDate + _requestedTerm, 
                                             liquidationFactor : getLiquidationFactor(loanBasis_.loanAmount, loanBasis_.collateral,  loanBasis_.dealBasis.length, _requestedTerm),

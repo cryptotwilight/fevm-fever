@@ -2,8 +2,8 @@
 
 pragma solidity >=0.7.0 <0.9.0;
 
-import "../interfaces/IFFRegistry.sol";
-import "../interfaces/IFFVersionedAddress.sol";
+import "../interfaces/IFGBRegistry.sol";
+import "../interfaces/IFGBVersionedAddress.sol";
 
 contract FGBRegistry is IFGBRegistry { 
 
@@ -38,7 +38,7 @@ contract FGBRegistry is IFGBRegistry {
 
     function addVersionedAddress(address _versionedAddress) external returns (bool _added) {
         adminOnly(); 
-        IFFVersionedAddress va = IFFVersionedAddress(_versionedAddress);
+        IFGBVersionedAddress va = IFGBVersionedAddress(_versionedAddress);
         addVersionedAddressInternal(va.getName(), _versionedAddress, va.getVersion());
         return true; 
     }

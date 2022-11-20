@@ -1,10 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0
-// @author Cryptotwilight
+
 pragma solidity >=0.7.0 <0.9.0;
 
 
 interface IFGBLoan {
-    
     struct Repayment { 
         uint256 amount; 
         uint256 date; 

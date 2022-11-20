@@ -9,13 +9,13 @@ contract FGBGreenBond is IFGBGreenBond {
 
     address holder; 
     BondBasis basis; 
-    IFFLendingMarket lendingMarket; 
+    IFGBLendingMarket lendingMarket; 
     
 
     constructor(address _lendingMarket, BondBasis memory _basis) {
         holder = basis.firstHolder; 
         basis = _basis; 
-        lendingMarket = IFFLendingMarket(_lendingMarket);        
+        lendingMarket = IFGBLendingMarket(_lendingMarket);        
     }
 
     function getInitialBasis() view external returns (BondBasis memory _basis){

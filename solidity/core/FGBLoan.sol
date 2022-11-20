@@ -14,7 +14,7 @@ contract FGBLoan  is IFGBLoan {
     address self; 
     LoanBasis basis; 
     LoanConditions conditions; 
-    IFFLoanManager loanManager; 
+    IFGBLoanManager loanManager; 
     MinerAPI miner; 
     bool credited; 
     bool drawnDown; 
@@ -26,7 +26,7 @@ contract FGBLoan  is IFGBLoan {
                 address _miner, 
                 LoanBasis memory _basis, 
                 LoanConditions memory _conditions) {
-        loanManager = IFFLoanManager(_loanManagerAddress);
+        loanManager = IFGBLoanManager(_loanManagerAddress);
         basis = _basis; 
         conditions = _conditions; 
         miner = MinerAPI(_miner);
