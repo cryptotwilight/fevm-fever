@@ -1,6 +1,6 @@
 FEVM GREEN BOURSE
 ##Introduction
-This is the FEVM GREEN BOURSE (FG Bourse) repository. The FEVM GREEN BOURSE project is about utilising the Filecoin EVM to create a bond and lending market that uses NFTs issued by Filecoin Green Initiatives to facilitate lending on top of the Filecoin mining platform. 
+This is the FEVM GREEN BOURSE (FG Bourse) repository. The FEVM GREEN BOURSE project is about utilising the Filecoin EVM to create a bond and lending market that uses NFTs issued by Filecoin Green Initiatives to facilitate lending on top of the Filecoin mining platform. The service leverages the ZONDAX market api's to determine borrowing potential of miners and to set the borrowing conditions for the loan.  
 The objective is to enable GREEN MINERS to borrow and allow industry participants to benefit from such borrowing through bonds issued by the market. 
 
 As Filecoin operations are typically oriented towards mid to longterm usage bond holders incur penalties for early liquidation so as to foster stability in the market. 

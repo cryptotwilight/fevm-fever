@@ -11,7 +11,7 @@
     <meta name="description"
         content="AdminWrap Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
     <meta name="robots" content="noindex,nofollow">
-    <title>FEVM GREEN FEVER BOURSE</title>
+    <title>FEVM GREEN BOURSE</title>
     <link rel="canonical" href="https://www.wrappixel.com/templates/adminwrap-lite/" />
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
@@ -105,11 +105,8 @@
                         <!-- Profile -->
                         <!-- ============================================================== -->
                         <li class="nav-item dropdown u-pro">
-                            <a class="nav-link dropdown-toggle waves-effect waves-dark profile-pic" href="#"
-                                id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img
-                                    src="../assets/images/users/1.jpg" alt="user" class="" /> <span
-                                    class="hidden-md-down">Mark Sanders &nbsp;</span> </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown"></ul>
+                            
+                            <a href="#" id="connect_web3" class="btn btn-primary">Connect Web 3</a> 
                         </li>
                     </ul>
                 </div>
@@ -131,7 +128,7 @@
                                     class="fa fa-tachometer"></i><span class="hide-menu">Dashboard</span></a>
                         </li>
                         <li> <a class="waves-effect waves-dark" href="pages-profile.html" aria-expanded="false"><i
-                                    class="fa fa-user-circle-o"></i><span class="hide-menu">Profile</span></a>
+                                    class="fa fa-user-circle-o"></i><span class="hide-menu">New Loan</span></a>
                         </li>
                         <li> <a class="waves-effect waves-dark" href="table-basic.html" aria-expanded="false"><i
                                     class="fa fa-table"></i><span class="hide-menu">Tables</span></a>
@@ -149,10 +146,7 @@
                                     class="fa fa-question-circle"></i><span class="hide-menu">404</span></a>
                         </li>
                     </ul>
-                    <div class="text-center mt-4">
-                        <a href="https://www.wrappixel.com/templates/adminwrap/"
-                            class="btn waves-effect waves-light btn-info hidden-md-down text-white"> Upgrade to Pro</a>
-                    </div>
+         
                 </nav>
                 <!-- End Sidebar navigation -->
             </div>
@@ -180,76 +174,23 @@
                             <li class="breadcrumb-item active">Dashboard</li>
                         </ol>
                     </div>
-                    <div class="col-md-7 align-self-center">
-                        <a href="https://www.wrappixel.com/templates/adminwrap/"
-                            class="btn waves-effect waves-light btn btn-info pull-right hidden-sm-down text-white"> Upgrade to
-                            Pro</a>
-                    </div>
+     
                 </div>
                 <!-- ============================================================== -->
                 <!-- End Bread crumb and right sidebar toggle -->
                 <!-- ============================================================== -->
-                <!-- ============================================================== -->
-                <!-- Sales Chart and browser state-->
-                <!-- ============================================================== -->
-                <div class="row">
-                    <!-- Column -->
-                    <div class="col-lg-8">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex no-block">
-                                    <div>
-                                        <h5 class="card-title mb-0">Sales Chart</h5>
-                                    </div>
-                                    <div class="ms-auto">
-                                        <ul class="list-inline text-center font-12">
-                                            <li><i class="fa fa-circle text-success"></i> SITE A</li>
-                                            <li><i class="fa fa-circle text-info"></i> SITE B</li>
-                                            <li><i class="fa fa-circle text-primary"></i> SITE C</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="" id="sales-chart" style="height: 355px;"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Column -->
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex mb-4 no-block">
-                                    <h5 class="card-title mb-0 align-self-center">Our Visitors</h5>
-                                    <div class="ms-auto">
-                                        <select class="form-select b-0">
-                                            <option selected="">Today</option>
-                                            <option value="1">Tomorrow</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div id="visitor" style="height:260px; width:100%;"></div>
-                                <ul class="list-inline mt-4 text-center font-12">
-                                    <li><i class="fa fa-circle text-purple"></i> Tablet</li>
-                                    <li><i class="fa fa-circle text-success"></i> Desktops</li>
-                                    <li><i class="fa fa-circle text-info"></i> Mobile</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- ============================================================== -->
-                <!-- End Sales Chart -->
-                <!-- ============================================================== -->
+   
                 <!-- ============================================================== -->
                 <!-- Projects of the Month -->
                 <!-- ============================================================== -->
                 <div class="row">
                     <!-- Column -->
-                    <div class="col-lg-8 d-flex align-items-stretch">
+                    <div class="col-lg-12 d-flex align-items-stretch">
                         <div class="card w-100">
                             <div class="card-body">
                                 <div class="d-flex">
                                     <div>
-                                        <h5 class="card-title">Projects of the Month</h5>
+                                        <h5 class="card-title">Outstanding Loans</h5>
                                     </div>
                                     <div class="ms-auto">
                                         <select class="form-select b-0">
@@ -264,52 +205,41 @@
                                     <table class="table vm no-th-brd pro-of-month">
                                         <thead>
                                             <tr>
-                                                <th colspan="2">Assigned</th>
-                                                <th>Name</th>
-                                                <th>Budget</th>
+                                                <th>Miner</th>
+                                                <th>Collateral</th>
+                                                <th>Deal Count</th>
+                                                <th>Interest</th>
+                                                <th>Outstanding Balance</th>
+                                                <th>Due Date</th>
+                                                <th>Green Status</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td style="width:50px;"><span class="round">S</span></td>
+                                                <td>f10011</td>                                                
                                                 <td>
-                                                    <h6>Sunil Joshi</h6><small class="text-muted">Web Designer</small>
+                                                    6000 FIL
                                                 </td>
-                                                <td>Elite Admin</td>
+                                                <td>
+                                                    6
+                                                </td>
+                                                <td>5%</td>
                                                 <td>$3.9K</td>
-                                            </tr>
-                                            <tr class="active">
-                                                <td><span class="round"><img src="../assets/images/users/2.jpg"
-                                                            alt="user" width="50"></span></td>
-                                                <td>
-                                                    <h6>Andrew</h6><small class="text-muted">Project Manager</small>
-                                                </td>
-                                                <td>Real Homes</td>
-                                                <td>$23.9K</td>
+                                                <td>2022/11/20</td>
+                                                <td>Audited</td>
                                             </tr>
                                             <tr>
-                                                <td><span class="round round-success">B</span></td>
+                                                <td>f10011</td>                                                
                                                 <td>
-                                                    <h6>Bhavesh patel</h6><small class="text-muted">Developer</small>
+                                                    16000 FIL
                                                 </td>
-                                                <td>MedicalPro Theme</td>
-                                                <td>$12.9K</td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="round round-primary">N</span></td>
                                                 <td>
-                                                    <h6>Nirav Joshi</h6><small class="text-muted">Frontend Eng</small>
+                                                    3
                                                 </td>
-                                                <td>Elite Admin</td>
-                                                <td>$10.9K</td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="round round-warning">M</span></td>
-                                                <td>
-                                                    <h6>Micheal Doe</h6><small class="text-muted">Content Writer</small>
-                                                </td>
-                                                <td>Helping Hands</td>
-                                                <td>$12.9K</td>
+                                                <td>15%</td>
+                                                <td>$13.9K</td>
+                                                <td>2022/11/20</td>
+                                                <td>UnAudited</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -318,27 +248,7 @@
                         </div>
                     </div>
                     <!-- Column -->
-                    <!-- Column -->
-                    <div class="col-lg-4 d-flex align-items-stretch">
-                        <div class="card w-100">
-                            <div class="up-img" style="background-image:url(../assets/images/big/img1.jpg)"></div>
-                            <div class="card-body">
-                                <h5 class=" card-title">Business development of rules</h5>
-                                <span class="label label-info label-rounded">Technology</span>
-                                <p class="mb-0 mt-3">Titudin venenatis ipsum aciat. Vestibu ullamer quam. nenatis
-                                    ipsum ac feugiat. Ibulum ullamcorper.</p>
-                                <div class="d-flex mt-3">
-                                    <a class="link" href="javascript:void(0)">Read more</a>
-                                    <div class="ms-auto align-self-center">
-                                        <a href="javascript:void(0)" class="link me-2"><i
-                                                class="fa fa-heart-o"></i></a>
-                                        <a href="javascript:void(0)" class="link me-2"><i
-                                                class="fa fa-share-alt"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
                 <!-- ============================================================== -->
                 <!-- End Projects of the Month -->
