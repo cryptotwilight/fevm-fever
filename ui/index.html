@@ -33,8 +33,12 @@
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>    
 <![endif]-->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/ethjs@0.3.4/dist/ethjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
 </head>
 
 <body class="fix-header fix-sidebar card-no-border">
@@ -163,7 +167,7 @@
                             <li class="breadcrumb-item active">Dashboard</li>
                         </ol>
                     </div>
-     
+                    <span id="show_wallet"></span>
                 </div>
                 <!-- ============================================================== -->
                 <!-- End Bread crumb and right sidebar toggle -->
@@ -357,8 +361,13 @@
     <!--c3 JavaScript -->
     <script src="../assets/node_modules/d3/d3.min.js"></script>
     <script src="../assets/node_modules/c3-master/c3.min.js"></script>
-    <!-- Chart JS -->
-    <script src="js/dashboard1.js"></script>
+
+    <!-- FEVM GREEN BIG BOARD -->
+    <script src="js/abi/i_fgb_green_bond_abi.js"></script> 
+    <script src="js/abi/i_fgb_registry_abi.js"></script> 
+    <script src="js/abi/i_fgb_loan_abi.js"></script> 
+    <script src="js/abi/i_fgb_lending_market_abi.js"></script> 
+    <script src="js/connect.js"></script>
 </body>
 
 </html>
