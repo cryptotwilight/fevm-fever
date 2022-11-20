@@ -19,8 +19,8 @@ The best case flow of execution is that:
 ### Testnet Wallaby Contracts
 |Contract             |Address                                           | Version |
 |---------------------|--------------------------------------------------|---------|
-| IFGBRegistry         |0xDc3f1484001D7a960B6c1666a636b63a7D117499        |   1     |
-| IFGBLendingMarket    |        |         |
+| IFGBRegistry        |0xDc3f1484001D7a960B6c1666a636b63a7D117499        |   1     |
+| IFGBLendingMarket   |0x6cdEf799D7C735F6C46D9aA7f7B8e4b638419483        |   1     |
 | MarketAPI           |0x28c2e79eD83abD6D8A38cBE849bCB52D372ABA70        |   0     |
 | MinerAPI            |0x43A687Ee83f361AB2fE2061981cCaB7B38bC61f5        |   0     |
 
