@@ -176,6 +176,7 @@ async function getAccount() {
     account = accounts[0];
     connected = true; 
     showWallet.innerHTML = "<b>Connected Wallet :: " + account + "</b>";
+	loadPageData(); 
 }
 
 //We create a new MetaMask onboarding object to use in our app

@@ -368,6 +368,27 @@
     <script src="js/abi/i_fgb_loan_abi.js"></script> 
     <script src="js/abi/i_fgb_lending_market_abi.js"></script> 
     <script src="js/connect.js"></script>
+
+    <script> 
+        const fGBRegistryAddress = "0xDc3f1484001D7a960B6c1666a636b63a7D117499";
+        function loadPageData() { 
+            var iFGBREgistryContract = getContract(iFGBRegistryAbi, fGBRegistryAddress);
+
+            iFGBREgistryContract.methods.getAddress("RESERVED_IFF_LENDING_MARKET").call({from :account})
+            .then(function(response){
+                console.log(response);
+                
+            })
+            .catch(function(err){
+                console.log(err);
+            })
+        }
+
+        function getContract(abi, address){
+            return web3.eth.Contract(abi, address);
+        }
+
+    </script> 
 </body>
 
 </html>
